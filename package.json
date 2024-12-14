@@ -1,9 +1,12 @@
 {
   "name": "indexeddb-wrapper",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild src/index.ts --bundle --minify --outfile=dist/index.js --platform=browser --target=esnext --format=esm --sourcemap",
+    "build:types": "tsc",
+    "prepare": "npm run build && npm run build:types",
+    "format": "npx prettier . --write"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,10 @@
     "url": "https://github.com/Eahnns12/indexeddb-wrapper/issues"
   },
   "homepage": "https://github.com/Eahnns12/indexeddb-wrapper#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
 }
