@@ -13,12 +13,17 @@
     "url": "git+https://github.com/Eahnns12/indexeddb-wrapper.git"
   },
   "author": "Eahnns12",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Eahnns12/indexeddb-wrapper/issues"
   },
   "homepage": "https://github.com/Eahnns12/indexeddb-wrapper#readme",
   "description": "",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "esbuild": "^0.24.0",
     "prettier": "^3.4.2",
