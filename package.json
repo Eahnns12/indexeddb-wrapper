@@ -1,32 +1,35 @@
 {
-  "name": "indexeddb-wrapper",
+  "name": "@Eahnns12/indexeddb-wrapper",
   "version": "0.0.1",
+  "description": "",
+  "homepage": "https://github.com/Eahnns12/indexeddb-wrapper#readme",
+  "bugs": {
+    "url": "https://github.com/Eahnns12/indexeddb-wrapper/issues"
+  },
+  "license": "MIT",
+  "author": "Eahnns12",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eahnns12/indexeddb-wrapper.git"
+  },
   "scripts": {
     "build": "esbuild src/index.ts --bundle --minify --outfile=dist/index.js --platform=browser --target=esnext --format=esm --sourcemap",
     "build:types": "tsc",
     "prepare": "npm run build && npm run build:types",
     "format": "npx prettier . --write"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Eahnns12/indexeddb-wrapper.git"
-  },
-  "author": "Eahnns12",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Eahnns12/indexeddb-wrapper/issues"
-  },
-  "homepage": "https://github.com/Eahnns12/indexeddb-wrapper#readme",
-  "description": "",
-  "files": [
-    "dist/",
-    "package.json",
-    "README.md"
-  ],
   "devDependencies": {
     "esbuild": "^0.24.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
