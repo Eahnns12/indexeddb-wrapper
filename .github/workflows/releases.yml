@@ -9,16 +9,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Get version from package.json
         id: get_version
@@ -30,7 +30,7 @@ jobs:
           echo "PACKAGE_NAME=$NAME" >> $GITHUB_ENV
           echo "PACKAGE_FILE=$FILENAME" >> $GITHUB_ENV
 
-      - name: Run npm pack
+      - name: Create package file
         run: npm pack
 
       - name: Create a release and upload asset
