@@ -187,14 +187,34 @@ class IDB {
       const result = target.result as IDBDatabase;
       this.db = result;
 
-      callback?.onupgradeneeded?.(event);
-
       if (!objectStores) {
         return;
       }
 
       for (const objectStore of objectStores) {
         if (this.db.objectStoreNames.contains(objectStore.name)) {
+          const transaction = target.transaction;
+
+          if (!transaction) {
+            continue;
+          }
+
+          const idbObjectStore = transaction.objectStore(objectStore.name);
+
+          if (!objectStore.indexes) {
+            continue;
+          }
+
+          for (const index of objectStore.indexes) {
+            if (!idbObjectStore.indexNames.contains(index.name)) {
+              idbObjectStore.createIndex(
+                index.name,
+                index.keyPath,
+                index.options,
+              );
+            }
+          }
+
           continue;
         }
 
@@ -211,6 +231,8 @@ class IDB {
           idbObjectStore.createIndex(index.name, index.keyPath, index.options);
         }
       }
+
+      callback?.onupgradeneeded?.(event);
     };
 
     return promise;
