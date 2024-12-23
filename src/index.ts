@@ -23,6 +23,13 @@ type IDBObjectStoreMethods =
   | "getKey"
   | "put";
 
+type IDBRequestCallback = {
+  onsuccess?: (event: Event) => any;
+  onerror?: (event: Event) => any;
+  onblocked?: (event: Event) => any;
+  onupgradeneeded?: (event: Event) => any;
+};
+
 class IDB {
   static #idb: IDBFactory = window.indexedDB;
 
@@ -106,12 +113,7 @@ class IDB {
     this.schema = schema;
   }
 
-  async open(callback?: {
-    onsuccess?: (event: Event) => Promise<void> | void;
-    onerror?: (event: Event) => Promise<void> | void;
-    onblocked?: (event: Event) => Promise<void> | void;
-    onupgradeneeded?: (event: Event) => Promise<void> | void;
-  }): Promise<IDB> {
+  async open(callback?: IDBRequestCallback): Promise<IDB> {
     const { promise, resolve, reject } = Promise.withResolvers<IDB>();
     const { name, version, objectStores } = this.schema;
     const request: IDBOpenDBRequest = IDB.#idb.open(name, version);
