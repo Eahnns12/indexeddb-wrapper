@@ -16,6 +16,16 @@ on:
           - prepatch
           - preminor
           - premajor
+      tags:
+        description: "Should push tags to remote repository?"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - true
+          - false
+    branches:
+      - main
 
 jobs:
   version:
@@ -44,4 +54,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git push origin ${{ github.ref_name }} --tag --force
+          git push origin main
+
+      - name: Push tags
+        if: ${{ github.event.inputs.tags == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push origin --tags
