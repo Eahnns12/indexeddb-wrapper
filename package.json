@@ -1,7 +1,12 @@
 {
   "name": "@eahnns12/indexeddb-wrapper",
   "version": "0.1.1",
-  "description": "",
+  "description": "A lightweight Promise-Based Wrapper to simplify the use of JavaScript IndexedDB",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "indexeddb"
+  ],
   "homepage": "https://github.com/Eahnns12/indexeddb-wrapper#readme",
   "bugs": {
     "url": "https://github.com/Eahnns12/indexeddb-wrapper/issues"
