@@ -217,6 +217,13 @@ class IDB {
   }
 
   /**
+   * Closes the connection to the database.
+   */
+  close(): void {
+    this.db.close();
+  }
+
+  /**
    * Executes a transaction.
    * @param storeNames - The name or names of the object stores involved in the transaction.
    * @param mode - The mode of the transaction.
