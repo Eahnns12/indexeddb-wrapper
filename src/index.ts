@@ -30,9 +30,16 @@ type IDBRequestCallback = {
   onupgradeneeded?: (event: Event) => any;
 };
 
+/**
+ * Wrapper class for IndexedDB.
+ */
 class IDB {
   static #idb: IDBFactory = window.indexedDB;
 
+  /**
+   * Lists all databases.
+   * @returns A promise that resolves to an array of database information.
+   */
   static async list(): Promise<IDBDatabaseInfo[]> {
     try {
       if (!IDB.#idb.databases) {
@@ -50,6 +57,11 @@ class IDB {
     }
   }
 
+  /**
+   * Checks if a database exists.
+   * @param name - The name of the database.
+   * @returns A promise that resolves to `true` if the database exists, otherwise `false`.
+   */
   static async has(name: string): Promise<boolean> {
     try {
       const databases = await IDB.list();
@@ -61,6 +73,11 @@ class IDB {
     }
   }
 
+  /**
+   * Deletes a database by name.
+   * @param name - The name of the database to delete.
+   * @returns A promise that resolves when the database is deleted.
+   */
   static async delete(name: string): Promise<void> {
     const { promise, resolve, reject } = Promise.withResolvers<undefined>();
     const request = IDB.#idb.deleteDatabase(name);
@@ -81,6 +98,11 @@ class IDB {
   #db: IDBDatabase | undefined;
   #schema: IDBSchema | undefined;
 
+  /**
+   * Gets the database instance.
+   * @returns The `IDBDatabase` instance.
+   * @throws Throws an error if the database is not initialized.
+   */
   get db(): IDBDatabase {
     if (!this.#db) {
       throw new Error(
@@ -91,10 +113,19 @@ class IDB {
     return this.#db;
   }
 
+  /**
+   * Sets the database instance.
+   * @param value - The `IDBDatabase` instance.
+   */
   set db(value: IDBDatabase) {
     this.#db = value;
   }
 
+  /**
+   * Gets the database schema.
+   * @returns The `IDBSchema` structure.
+   * @throws Throws an error if the database is not initialized.
+   */
   get schema(): IDBSchema {
     if (!this.#schema) {
       throw new Error(
@@ -105,14 +136,27 @@ class IDB {
     return this.#schema;
   }
 
+  /**
+   * Sets the database schema.
+   * @param value - The `IDBSchema` structure.
+   */
   set schema(value: IDBSchema) {
     this.#schema = value;
   }
 
+  /**
+   * IDB class constructor.
+   * @param schema - The database schema.
+   */
   constructor(schema: IDBSchema) {
     this.schema = schema;
   }
 
+  /**
+   * Opens a connection to the database.
+   * @param callback - An optional callback containing `onsuccess`, `onerror`, `onblocked`, and `onupgradeneeded` handlers.
+   * @returns A promise that resolves to the `IDB` instance.
+   */
   async open(callback?: IDBRequestCallback): Promise<IDB> {
     const { promise, resolve, reject } = Promise.withResolvers<IDB>();
     const { name, version, objectStores } = this.schema;
@@ -172,6 +216,14 @@ class IDB {
     return promise;
   }
 
+  /**
+   * Executes a transaction.
+   * @param storeNames - The name or names of the object stores involved in the transaction.
+   * @param mode - The mode of the transaction.
+   * @param options - Optional transaction options.
+   * @param callback - A callback function that receives the object stores and performs operations.
+   * @returns A promise that resolves to the result of the callback.
+   */
   async transaction<T>(
     storeNames: string | string[],
     mode?: IDBTransactionMode,
@@ -213,6 +265,13 @@ class IDB {
     return promise;
   }
 
+  /**
+   * Adds data to a specified object store.
+   * @param storeName - The name of the object store.
+   * @param value - The data to add.
+   * @param key - An optional key.
+   * @returns A promise that resolves to the key of the added data.
+   */
   async add<T>(
     storeName: string,
     value: T,
@@ -223,18 +282,34 @@ class IDB {
     );
   }
 
+  /**
+   * Clears all data from a specified object store.
+   * @param storeName - The name of the object store.
+   * @returns A promise that resolves when the store is cleared.
+   */
   async clear(storeName: string): Promise<undefined> {
     return this.transaction(storeName, "readwrite", {}, async store =>
       this.#transactionCallback(store[storeName], "clear"),
     );
   }
 
+  /**
+   * Counts the number of records in a specified object store.
+   * @param storeName - The name of the object store.
+   * @returns A promise that resolves to the count of records.
+   */
   async count(storeName: string): Promise<number> {
     return this.transaction(storeName, "readonly", {}, async store =>
       this.#transactionCallback(store[storeName], "count"),
     );
   }
 
+  /**
+   * Deletes records that match a query from a specified object store.
+   * @param storeName - The name of the object store.
+   * @param query - The key or key range to match for deletion.
+   * @returns A promise that resolves when the records are deleted.
+   */
   async delete(
     storeName: string,
     query: IDBValidKey | IDBKeyRange,
@@ -244,6 +319,12 @@ class IDB {
     );
   }
 
+  /**
+   * Retrieves a record that matches a query from a specified object store.
+   * @param storeName - The name of the object store.
+   * @param query - The key or key range to match.
+   * @returns A promise that resolves to the retrieved record.
+   */
   async get<T>(
     storeName: string,
     query: IDBValidKey | IDBKeyRange,
@@ -253,6 +334,13 @@ class IDB {
     );
   }
 
+  /**
+   * Retrieves all records that match a query from a specified object store.
+   * @param storeName - The name of the object store.
+   * @param query - An optional key or key range to match.
+   * @param count - An optional maximum number of records to retrieve.
+   * @returns A promise that resolves to an array of matching records.
+   */
   async getAll<T>(
     storeName: string,
     query?: IDBValidKey | IDBKeyRange | null,
@@ -263,6 +351,13 @@ class IDB {
     );
   }
 
+  /**
+   * Retrieves all keys that match a query from a specified object store.
+   * @param storeName - The name of the object store.
+   * @param query - An optional key or key range to match.
+   * @param count - An optional maximum number of keys to retrieve.
+   * @returns A promise that resolves to an array of matching keys.
+   */
   async getAllKeys(
     storeName: string,
     query?: IDBValidKey | IDBKeyRange | null,
@@ -273,6 +368,12 @@ class IDB {
     );
   }
 
+  /**
+   * Retrieves a single key that matches a query from a specified object store.
+   * @param storeName - The name of the object store.
+   * @param query - The key or key range to match.
+   * @returns A promise that resolves to the matching key or `undefined`.
+   */
   async getKey(
     storeName: string,
     query: IDBValidKey | IDBKeyRange,
@@ -282,6 +383,13 @@ class IDB {
     );
   }
 
+  /**
+   * Updates or adds data to a specified object store.
+   * @param storeName - The name of the object store.
+   * @param value - The data to update or add.
+   * @param key - An optional key.
+   * @returns A promise that resolves to the key of the updated or added data.
+   */
   async put<T>(
     storeName: string,
     value: T,
@@ -292,6 +400,13 @@ class IDB {
     );
   }
 
+  /**
+   * Callback for transaction operations.
+   * @param objectStore - The object store to operate on.
+   * @param methodName - The name of the method to call on the object store.
+   * @param args - Arguments to pass to the method.
+   * @returns A promise that resolves to the result of the operation.
+   */
   async #transactionCallback<T>(
     objectStore: IDBObjectStore,
     methodName: IDBObjectStoreMethods,
