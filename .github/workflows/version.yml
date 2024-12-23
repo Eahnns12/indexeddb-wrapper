@@ -7,6 +7,7 @@ on:
         description: "Version type to bump"
         required: true
         default: "patch"
+        type: choice
         options:
           - patch
           - minor
