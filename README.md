@@ -21,7 +21,7 @@ npm install https://github.com/Eahnns12/indexeddb-wrapper
 Here's a quick example of how to use the library:
 
 ```javascript
-import IDB from "@eahnns12/indexeddb-wrapper";
+import IDB from "indexeddb-wrapper";
 
 const schema = {
   name: "MyDatabase",

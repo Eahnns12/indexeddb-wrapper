@@ -1,5 +1,5 @@
 {
-  "name": "@eahnns12/indexeddb-wrapper",
+  "name": "indexeddb-wrapper",
   "version": "0.1.2",
   "description": "A lightweight Promise-Based Wrapper to simplify the use of JavaScript IndexedDB",
   "keywords": [
@@ -33,8 +33,5 @@
     "esbuild": "^0.24.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
