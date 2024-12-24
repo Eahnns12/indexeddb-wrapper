@@ -13,7 +13,7 @@ A lightweight Promise-based wrapper to simplify the use of JavaScript IndexedDB.
 Install the package via npm:
 
 ```bash
-npm install https://github.com/Eahnns12/indexeddb-wrapper
+npm install https://github.com/eahnns1228/indexeddb-wrapper
 ```
 
 ## Usage

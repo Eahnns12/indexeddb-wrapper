@@ -7,12 +7,12 @@
     "typescript",
     "indexeddb"
   ],
-  "homepage": "https://github.com/Eahnns12/indexeddb-wrapper#readme",
+  "homepage": "https://github.com/eahnns1228/indexeddb-wrapper#readme",
   "bugs": {
-    "url": "https://github.com/Eahnns12/indexeddb-wrapper/issues"
+    "url": "https://github.com/eahnns1228/indexeddb-wrapper/issues"
   },
   "license": "MIT",
-  "author": "Eahnns12",
+  "author": "eahnns1228",
   "files": [
     "dist/",
     "package.json",
@@ -21,7 +21,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Eahnns12/indexeddb-wrapper.git"
+    "url": "git+https://github.com/eahnns1228/indexeddb-wrapper.git"
   },
   "scripts": {
     "build": "esbuild src/index.ts --bundle --minify --outfile=dist/index.js --platform=browser --target=esnext --format=esm --sourcemap",
